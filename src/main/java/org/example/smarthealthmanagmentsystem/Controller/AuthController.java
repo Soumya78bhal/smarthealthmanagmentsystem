@@ -26,15 +26,14 @@ public class AuthController {
     public ResponseEntity<?> generateTokenForAuthenticatedUser(HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.isAuthenticated() &&
-                authentication.getPrincipal() instanceof UserDetails) {
+        if (authentication != null && authentication.isAuthenticated()) {
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             // Generate a new JWT token
             String token = jwtUtil.generateToken(userDetails);
 
-            // Optionally, return it in the body too
+            // return it in the body
             return ResponseEntity.ok(Map.of("token", token));
         }
 
